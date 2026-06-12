@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>프로젝트 진행 그래프</title>
+
+    <style>
+        body {
+            color: white;
+        }
+
+        svg {
+            width: 800px;
+            height: 500px;
+            background: #191716;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+        }
+
+        .axis {
+            stroke: #fff;
+            stroke-width: 2;
+        }
+
+        .grid {
+            stroke: #fff;
+            stroke-width: 1;
+        }
+
+        .label {
+            font-size: 14px;
+            fill: #fff;
+        }
+
+        .graph-line {
+            fill: none;
+            stroke: #cfb095;
+            stroke-width: 4;
+
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+
+            animation: drawLine 3s ease forwards;
+        }
+
+        .point {
+            fill: #c19a6b;
+            opacity: 0;
+            transform-origin: center;
+            animation: showPoint .4s forwards;
+        }
+
+        .p1 {
+            animation-delay: .4s;
+        }
+
+        .p2 {
+            animation-delay: .8s;
+        }
+
+        .p3 {
+            animation-delay: 1.2s;
+        }
+
+        .p4 {
+            animation-delay: 1.6s;
+        }
+
+        .p5 {
+            animation-delay: 2s;
+        }
+        svg text {
+            fill: white;
+        }
+
+        @keyframes drawLine {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        @keyframes showPoint {
+            from {
+                opacity: 0;
+                r: 0;
+            }
+
+            to {
+                opacity: 1;
+                r: 6;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <svg viewBox="0 0 800 500">
+
+        <!-- 가로 그리드 -->
+        <line class="grid" x1="80" y1="80" x2="700" y2="80" />
+        <line class="grid" x1="80" y1="130" x2="700" y2="130" />
+        <line class="grid" x1="80" y1="180" x2="700" y2="180" />
+        <line class="grid" x1="80" y1="230" x2="700" y2="230" />
+        <line class="grid" x1="80" y1="280" x2="700" y2="280" />
+        <line class="grid" x1="80" y1="330" x2="700" y2="330" />
+        <line class="grid" x1="80" y1="380" x2="700" y2="380" />
+
+        <!-- 축 -->
+        <line class="axis" x1="80" y1="50" x2="80" y2="420" />
+        <line class="axis" x1="80" y1="420" x2="720" y2="420" />
+
+        <!-- Y축 -->
+        <text class="label" x="50" y="425">0</text>
+        <text class="label" x="50" y="375">10</text>
+        <text class="label" x="50" y="325">20</text>
+        <text class="label" x="50" y="275">30</text>
+        <text class="label" x="50" y="225">40</text>
+        <text class="label" x="50" y="175">50</text>
+        <text class="label" x="50" y="125">60</text>
+        <text class="label" x="50" y="75">70</text>
+
+        <!-- X축 -->
+        <text class="label" x="110" y="450">2025.6</text>
+        <text class="label" x="245" y="450">2025.9</text>
+        <text class="label" x="380" y="450">2025.12</text>
+        <text class="label" x="515" y="450">2026.3</text>
+        <text class="label" x="650" y="450">2026.6</text>
+
+        <!-- 그래프 -->
+        <polyline class="graph-line" points="
+        130,370
+        265,300
+        400,240
+        535,160
+        670,70
+        " />
+
+        <!-- 점 -->
+        <circle class="point p1" cx="130" cy="370" r="6" />
+        <circle class="point p2" cx="265" cy="300" r="6" />
+        <circle class="point p3" cx="400" cy="240" r="6" />
+        <circle class="point p4" cx="535" cy="160" r="6" />
+        <circle class="point p5" cx="670" cy="70" r="6" />
+
+        <!-- 축 제목 -->
+        <text x="350" y="490" font-size="18">Timeline</text>
+
+        <text x="20" y="250" font-size="18" transform="rotate(-90 20 250)">
+            Total Projects
+        </text>
+
+    </svg>
+
+</body>
+
+</html>

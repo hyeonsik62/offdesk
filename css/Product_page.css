@@ -1,0 +1,574 @@
+*
+{
+    margin: 0px;
+    padding: 0px;
+}
+
+a
+{
+    color: inherit;
+    text-decoration: none;
+}
+
+ul
+{
+    list-style: none;
+}
+
+body
+{
+    font-family: 'roboto';
+    color: #191716;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=LINE+Seed+JP&family=Lexend:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+#wrap_wrap{
+    min-width: 1400px;
+    overflow: hidden;
+}
+#header_wrap {
+    width: 100%;
+    height: 100px;
+    background-color: #fff;
+    
+    position: sticky;
+    top: 0;
+    z-index: 999;
+}
+
+.header {
+
+    width: 1320px;
+    height: 100px;
+    background-color: white;
+    margin: 0px auto;
+    display: flex;
+    justify-content: space-between;
+    box-sizing: border-box;
+    color: #191716;
+}
+
+.header h1 {
+    margin-left: 50px;
+    margin-top: 18px;
+}
+
+.gnb {
+    display: flex;
+    width: 541px;
+    margin: 0px 130px;
+    justify-content: space-between;
+    padding-top: 35px;
+    font-size: 24px;
+    font-family: "Roboto";
+    font-weight: 400;
+}
+
+.gnb>li>a {
+    position: relative;
+    /* 밑줄이 a 태그를 기준으로 생기도록 설정 */
+    display: inline-block;
+    /* 텍스트 너비만큼만 밑줄이 생기도록 설정 */
+    padding: 0px 15px 5px 15px;
+    /* 텍스트와 밑줄 사이의 간격 (원하는 대로 조절 가능) */
+    text-decoration: none;
+    /* 혹시 모를 기본 밑줄 제거 */
+}
+
+/* 2. 양쪽으로 뻗어나갈 선의 공통 기본 상태 (길이 0) */
+.gnb>li>a:after,
+.gnb>li>a:before {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 0;
+    height: 3px;
+    /* 선의 두께 */
+    bottom: 0;
+    /* a 태그 맨 아래에 부착 */
+    transition: all 0.2s ease-in 0s;
+}
+
+.gnb>li>a:after {
+    left: 51%;
+    /* 가운데서 출발 */
+    background: linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%);
+}
+
+/* 4. 오른쪽 선의 대기 상태 (:before) - 검은색에서 투명으로 */
+.gnb>li>a:before {
+    right: 51%;
+    /* 가운데서 출발 */
+    background: linear-gradient(to right, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
+}
+
+/* 5. 마우스를 올렸을 때(Hover) 실행될 애니메이션 */
+
+/* (누락되었던 코드 추가!) 왼쪽으로 뻗어나감 */
+.gnb>li>a:hover:after {
+    width: 50%;
+    /* 너비가 절반만큼 늘어남 */
+    left: 0;
+    /* 왼쪽 끝으로 이동 */
+}
+
+/* 오른쪽으로 뻗어나감 */
+.gnb>li>a:hover:before {
+    width: 50%;
+    /* 너비가 절반만큼 늘어남 */
+    right: 0;
+    /* 오른쪽 끝으로 이동 */
+}
+
+/* 전체 submenu */
+
+.submenu_wrap {
+    width: 100%;
+    height: 332px;
+    background-color: rgba(45, 45, 45, 0.6);
+
+    backdrop-filter: blur(10px);
+    position: absolute;
+    top: 100px;
+    left: 0;
+    display: none;
+
+    z-index: 12;
+}
+
+.gnb>li:hover .submenu_wrap {
+    display: block;
+}
+
+.submenu {
+    width: 541px;
+    height: 332px;
+    margin-left: 674px;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+}
+
+.submenu_link li {
+    font-family: "Roboto";
+    font-weight: 400;
+    font-size: 24px;
+    padding-bottom: 44px;
+    line-height: 28px;
+    color: white;
+}
+
+.submenu_link li:nth-child(1) {
+    padding-top: 44px;
+}
+
+.submenu_link li a {
+    display: block;
+    height: 28px;
+}
+
+.submenu_link li a {
+    display: inline-block;
+    vertical-align: middle;
+    -webkit-transform: perspective(1px) translateZ(0);
+    transform: perspective(1px) translateZ(0);
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+    position: relative;
+    -webkit-transition-property: color;
+    transition-property: color;
+    -webkit-transition-duration: 0.5s;
+    transition-duration: 0.5s;
+}
+
+.submenu_link li a:before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    height: 3px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #fff;
+    -webkit-transform: scaleX(0);
+    transform: scaleX(0);
+    -webkit-transform-origin: 0 50%;
+    transform-origin: 0 50%;
+    -webkit-transition-property: transform;
+    transition-property: transform;
+    -webkit-transition-duration: 0.5s;
+    transition-duration: 0.5s;
+    -webkit-transition-timing-function: ease-out;
+    transition-timing-function: ease-out;
+}
+
+.submenu_link li a:hover:before,
+.submenu_link li a:focus:before,
+.submenu_link li a:active:before {
+    -webkit-transform: scaleX(1);
+    transform: scaleX(1);
+    -webkit-transition-timing-function: cubic-bezier(0.52, 1.64, 0.37, 0.66);
+    transition-timing-function: cubic-bezier(0.52, 1.64, 0.37, 0.66);
+}
+
+.submenu_link_images {
+    width: 280px;
+    height: 210px;
+    position: relative;
+}
+
+.submenu_link_images img {
+    position: absolute;
+    top: 61px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* 이미지가 비율을 유지하며 꽉 차게 렌더링 */
+    opacity: 0;
+    /* 투명도 0으로 안 보이게 */
+    visibility: hidden;
+    transition: all 0.4s ease;
+    /* 스르륵 바뀌는 부드러운 효과 */
+}
+
+.submenu:has(.submenu_link li:nth-child(1):hover) .submenu_link_images img:nth-child(1) {
+    opacity: 1;
+    visibility: visible;
+}
+
+.submenu:has(.submenu_link li:nth-child(2):hover) .submenu_link_images img:nth-child(2) {
+    opacity: 1;
+    visibility: visible;
+}
+
+.submenu:has(.submenu_link li:nth-child(3):hover) .submenu_link_images img:nth-child(3) {
+    opacity: 1;
+    visibility: visible;
+}
+
+.submenu:has(.submenu_link li:nth-child(4):hover) .submenu_link_images img:nth-child(4) {
+    opacity: 1;
+    visibility: visible;
+}
+
+
+.util {
+    width: 225px;
+    justify-content: space-between;
+    display: flex;
+    padding-top: 35px;
+    margin-right: 50px;
+    box-sizing: border-box;
+}
+
+.util>li {
+    width: 30px;
+    height: 30px;
+    font-size: 24px;
+    font-family: "roboto";
+}
+
+.util>li>a {
+    display: block;
+}
+
+.util>li:nth-child(1) {
+    width: 60px;
+}
+
+.util>li:nth-child(1)>a {
+    width: 30px;
+    height: 30px;
+
+}
+
+.util>li:nth-child(4)
+{
+    padding-top: 4px;
+}
+
+#Product_represent_wrap
+{
+    width: 100%;
+    height: 560px;
+    background: url(../images/Product_page/Mask\ group.png) no-repeat center center;
+    position: relative;
+    
+}
+
+#Product_represent_wrap h2
+{
+    font-size: 64px;
+    font-weight: 800;
+    text-align: center;
+    height: 75px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    /* X, Y를 한 번에 작성합니다 */
+    transform: translate(-50%, -50%);
+
+}
+
+#Product_category_wrap
+{
+    width: 100%;
+    height: 300px;
+    background-color: #cfb095;
+}
+
+.Product_category
+{
+    width: 1320px;
+    height: 300px;
+    margin: 0px auto;
+    box-sizing: border-box;
+}
+
+.Product_category h2
+{
+    font-weight: 700;
+    font-size: 32px;
+    padding-top: 72px;
+    padding-bottom: 70px;
+    color: #fff;
+}
+
+.category_list
+{
+    display: flex;
+}
+
+.category_list>li
+{
+    width: 122px;
+    height: 100%;
+    line-height: 48px;
+    display: block;
+    border-radius: 10px;
+    background-color: white;
+    margin-right: 30px;
+
+    font-size: 24px;
+    font-weight: 500;
+
+    text-align: center;
+}
+
+.category_list>li>a
+{
+    display: block;
+}
+
+.Current_category
+{
+    background-color: #333;
+    color: white;
+    border-radius: 10px;
+    display: block;
+}
+
+#Product_list_section_wrap
+{
+    width: 100%;
+    height: 1028px;
+    background-color: #cfb095;
+}
+
+.Product_list
+{
+    width: 1320px;
+    height: 1028px;
+    margin: 0px auto;
+}
+.Product_list_section
+{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    row-gap: 15px;
+}
+
+.Product_list_section img {
+    display: block;
+}
+.Product_list_section li
+{
+    width: 430px;
+    height: 442px;
+    background-color: #fff;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.Product_list_section>li>a
+{
+    display: block;
+}
+
+.Product_list_section>li>a>h3
+{
+    font-weight: 600;
+    font-size: 20px;
+    padding-top: 15px;
+    padding-left: 15px;
+}
+
+.Product_list_section>li>a>h4
+{
+    font-weight: 400;
+    font-size: 16px;
+    padding-left: 15px;
+}
+
+.starpoint_section
+{
+    display: flex;
+    padding-top: 26px;
+    padding-left: 15px;
+}
+
+.starpoint_section img
+{
+    width: 20px;
+    height: 20px;
+}
+
+.Product_list_section>li>a>h5
+{
+    font-size: 12px;
+    font-weight: 400;
+    position: absolute;
+    left: 115px;
+    bottom: 10px;
+}
+
+.Product_list_section>li>a>p
+{
+    font-size: 20px;
+    font-weight: 700;
+    position: absolute;
+    bottom: 10px;
+    right: 15px;
+}
+
+.Product_image {
+    position: relative; 
+}
+
+.Product_image .hover {
+    opacity: 0; 
+    transition: opacity 0.3s ease-in-out; /* 0.3초 동안 스르륵 변하는 애니메이션 */
+}
+
+.hover
+{
+    opacity: 0;
+}
+
+.Product_image .original {
+    display: block;
+    width: 100%; /* 부모 너비에 맞춤 */
+}
+
+.Product_image .hover {
+    position: absolute; /* 부모(.Product_image)를 기준으로 공중에 띄움 */
+    top: 0;             /* 위에서부터 0 딱 붙임 */
+    left: 0;            /* 왼쪽에서부터 0 딱 붙임 */
+    width: 100%;        /* 원본 이미지와 너비를 동일하게 */
+    height: 100%;       /* 원본 이미지와 높이를 동일하게 */
+}
+
+.Product_image:hover .hover {
+    opacity: 1; /* 투명도를 100%로 올려서 보이게 함 */
+}
+
+.pagination_section
+{
+    padding-top: 50px;
+    font-size: 24px;
+    padding-bottom: 51px;
+}
+
+.pagination
+{
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 28px;
+}
+
+.Current_page
+{
+    font-weight: 800;
+    text-decoration: underline;
+}
+
+#footer_wrap
+{
+    width: 1920px;
+    height: 300px;
+    background-color: #1a1a1a;
+    margin: 0px auto;
+    color: #fff;
+}
+
+.footer
+{
+    width: 1320px;
+    height: 300px;
+    margin: 0px auto;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.footer p
+{
+    font-size: 12px;
+    position: absolute;
+    left: 50px;
+    bottom: 20px;
+}
+.footer_link
+{
+    width: 1040px;
+    display: flex;
+    justify-content: space-between;
+    padding-left: 50px;
+    padding-top: 45px;
+}
+
+.footer h1
+{
+    margin-top: -24px;
+}
+
+.footer_ul h2
+{
+    font-size: 20px;
+    padding-bottom: 30px;
+    line-height: 23px;
+}
+
+.roboto
+{
+    font-family: 'roboto';
+}
+
+.footer_ul li
+{
+    padding-bottom: 10px;
+}
+.footer_util
+{
+    width: 208px;
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    right: 0px;
+    bottom: 20px;
+}
