@@ -12,6 +12,11 @@ ul {
     list-style: none;
 }
 
+html {
+    /* 스크롤바가 숨겨져 있을 때도, 스크롤바가 생길 빈 자리를 미리 투명하게 확보해 둡니다. */
+    scrollbar-gutter: stable;
+    background-color: #2c2c2c;
+}
 
 @font-face {
     font-family: 'Paperozi';
@@ -76,6 +81,8 @@ ul {
     font-display: swap;
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=LINE+Seed+JP&family=Lexend:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
 body {
@@ -88,15 +95,15 @@ body {
 #header_wrap {
     width: 100%;
     height: 100px;
-    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.9);
 
     position: fixed;
     top: 0;
     left: 0;
     z-index: 999;
 
-    opacity: 0; 
-    pointer-events: none; 
+    opacity: 0;
+    pointer-events: none;
     transition: opacity 1s ease;
 }
 
@@ -106,15 +113,14 @@ body {
 }
 
 
-body.no-scroll
-{
+body.no-scroll {
     overflow: hidden;
     height: 100vh;
 }
+
 .header {
     width: 1320px;
     height: 100px;
-    background-color: white;
     margin: 0px auto;
     display: flex;
     justify-content: space-between;
@@ -133,7 +139,7 @@ body.no-scroll
     justify-content: space-between;
     padding-top: 35px;
     font-size: 24px;
-    font-family: "Roboto";
+    font-family: 'Roboto';
     font-weight: 400;
 }
 
@@ -212,21 +218,22 @@ body.no-scroll
 }
 
 .submenu {
-    width: 541px;
+    width: 526px;
     height: 332px;
-    margin-left: 674px;
+    margin-left: 684px;
     display: flex;
     justify-content: space-between;
     position: relative;
 }
 
 .submenu_link li {
-    font-family: "Roboto";
+    font-family: 'Roboto';
     font-weight: 400;
     font-size: 24px;
     padding-bottom: 44px;
     line-height: 28px;
     color: white;
+
 }
 
 .submenu_link li:nth-child(1) {
@@ -236,6 +243,7 @@ body.no-scroll
 .submenu_link li a {
     display: block;
     height: 28px;
+
 }
 
 .submenu_link li a {
@@ -336,32 +344,97 @@ body.no-scroll
     width: 30px;
     height: 30px;
     font-size: 24px;
-    font-family: "roboto";
+    font-family: 'Roboto';
 }
 
 .util>li>a {
     display: block;
 }
 
-.util>li:nth-child(1) {
+.util > li:nth-child(1) {
     width: 60px;
 }
 
-.util>li:nth-child(1)>a {
-    width: 30px;
+.util > li:nth-child(1) > a {
+    display: inline-block;
+    width: 100%;
     height: 30px;
-
+    line-height: 30px;
+    text-align: center;
+    text-decoration: none;
+    
+    position: relative; 
 }
 
-.util>li:nth-child(4)
-{
+/* 2. 양쪽으로 뻗어나갈 선의 공통 기본 상태 (길이 0) */
+.util > li:nth-child(1) > a:after,
+.util > li:nth-child(1) > a:before {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 0;
+    height: 3px; /* 선의 두께 */
+    bottom: -5px; /* 글씨와 너무 겹치면 0 대신 -5px 정도로 살짝 내려주세요 */
+    transition: all 0.2s ease-in 0s;
+    z-index: 1; /* 선이 배경 뒤로 숨는 것을 방지 */
+}
+
+/* 3. 왼쪽으로 뻗어나갈 선의 대기 상태 (:after) */
+.util > li:nth-child(1) > a:after {
+    left: 51%; /* 가운데서 출발 */
+    background: linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%);
+}
+
+/* 4. 오른쪽으로 뻗어나갈 선의 대기 상태 (:before) */
+.util > li:nth-child(1) > a:before {
+    right: 51%; /* 가운데서 출발 */
+    background: linear-gradient(to right, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
+}
+
+/* 5. 마우스를 올렸을 때(Hover) 실행될 애니메이션 */
+
+/* 왼쪽으로 뻗어나감 */
+.util > li:nth-child(1) > a:hover:after {
+    width: 70%; /* 너비가 절반만큼 늘어남 */
+    left: -20%; /* 왼쪽 끝으로 이동 */
+}
+
+/* 오른쪽으로 뻗어나감 */
+.util > li:nth-child(1) > a:hover:before {
+    width: 70%; /* 너비가 절반만큼 늘어남 */
+    right: -20%; /* 오른쪽 끝으로 이동 */
+}
+
+.util>li:nth-child(4) {
     padding-top: 4px;
 }
 
+.util>li:nth-child(2),
+.util>li:nth-child(3),
+.util>li:nth-child(4)
+{
+    transition: 0.3s ease;
+}
+
+.util>li:nth-child(2):hover,
+.util>li:nth-child(3):hover,
+.util>li:nth-child(4):hover
+{
+    transform: scale(0.8);
+}
+
 /* mainbanner */
-.mainbanner {
+.mainbanner 
+{
     width: 100%;
-    height: 100vh;
+    height: 100%;
+}
+
+.mainbanner video
+{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 /* Products_section */
@@ -461,10 +534,9 @@ body.no-scroll
     display: block;
     width: 300px;
     height: 300px;
-
     background-color: white;
     border-radius: 0px 30px 0px 30px;
-    font-family: "roboto";
+    font-family: 'Roboto';
     position: relative;
     transition: all 0.8s;
 }
@@ -483,10 +555,8 @@ body.no-scroll
 
 .scroll-animate {
     opacity: 0;
-    /* 스크롤이 도달하기 전까지는 숨겨둠 */
 }
 
-/* animate.css가 실행될 때는 다시 보이도록 우선순위를 높여줌 */
 .scroll-animate.animate__animated {
     opacity: 1;
 }
@@ -683,7 +753,7 @@ body.no-scroll
     color: #ffffff;
     font-size: 32px;
     margin: 0;
-    font-family: 'roboto';
+    font-family: 'Roboto';
     font-weight: 500;
     text-shadow: 0px 4px 8px #191716;
     z-index: 10;
@@ -804,7 +874,7 @@ li:has(.Event_a_circle:hover) .Event_product_box {
 
     align-items: center;
     text-align: center;
-    font-family: "roboto";
+    font-family: 'Roboto';
 
     visibility: hidden;
     opacity: 0;
@@ -964,17 +1034,23 @@ li:has(.Event_a_circle:hover) .Event_product_box {
     top: 386px;
     left: 150px;
     z-index: 3;
+    color: white;
 }
 
 .subbanner_1_button a {
     display: block;
     width: 200px;
-    color: white;
+    
     font-family: "roboto";
     font-size: 18px;
     text-align: center;
     padding-top: 12px;
     padding-bottom: 12px;
+}
+
+.subbanner_1_button:hover
+{
+    background: rgba(255, 255, 255, 0.2);
 }
 
 .blur_box {
@@ -1026,7 +1102,7 @@ li:has(.Event_a_circle:hover) .Event_product_box {
     display: block;
     width: 350px;
     height: 350px;
-    position: absolute; 
+    position: absolute;
     transition: all 0.3s ease;
 }
 
@@ -1062,6 +1138,7 @@ li:has(.Event_a_circle:hover) .Event_product_box {
     height: 100%;
     /* 기존에 있던 position, z-index, top 등은 전부 a 태그로 옮겼으므로 지웁니다 */
 }
+
 .Bestseller_contents_images_1 {
     background: url(../images/Bestseller_section/Bestseller_1.png) no-repeat;
 }
@@ -1097,7 +1174,7 @@ li:has(.Event_a_circle:hover) .Event_product_box {
 
 .Bestseller_contents_review>h4 {
     font-size: 24px;
-    font-family: roboto;
+    font-family: 'roboto';
     padding: 10px;
     position: sticky;
     /* 스크롤 시 고정 */
@@ -1182,15 +1259,16 @@ li:has(.Event_a_circle:hover) .Event_product_box {
 
 
 .helpful_box_1 {
-    position: absolute; /* 원하는 위치에 배치 */
+    position: absolute;
+    /* 원하는 위치에 배치 */
     top: 140px;
     left: 390px;
-    
+
     width: 150px;
     height: 30px;
     border-radius: 6px;
-    background-color: #d9d9d9;
-    
+    background-color: #e7d7ca;
+
     overflow: hidden;
 
     transition: transform 0.1s ease;
@@ -1205,32 +1283,33 @@ li:has(.Event_a_circle:hover) .Event_product_box {
     text-align: center;
 }
 
-.helpful_box_2
-{
-    position: absolute; /* 글자 위를 덮어씌워야 하므로 absolute 사용 */
+.helpful_box_2 {
+    position: absolute;
+    /* 글자 위를 덮어씌워야 하므로 absolute 사용 */
     top: 0;
-    left: -30px; /* 🌟 상자 너비만큼 바깥으로 완전히 빼둠 (핵심) */
-    
+    left: -30px;
+    /* 🌟 상자 너비만큼 바깥으로 완전히 빼둠 (핵심) */
+
     width: 30px;
     height: 30px;
-    transition: .3s;
-    
+    transition: 0.3s;
+
     /* 안에 들어갈 아이콘을 정중앙에 배치하기 위한 Flexbox */
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.btnimg 
-{
-    width: 15px; /* 이미지 크기에 맞게 조절하세요 */
+.btnimg {
+    width: 15px;
+    /* 이미지 크기에 맞게 조절하세요 */
     height: 15px;
     background: url(../images/Bestseller_section/ThumbsUp_icon.png) no-repeat center / contain;
 }
 
 /* p 태그 밀어내기 (hover 상태이거나 active 클래스가 있을 때) */
-.helpful_box_1:hover > p,
-.helpful_box_1.active > p {
+.helpful_box_1:hover>p,
+.helpful_box_1.active>p {
     margin-left: 20px;
 }
 
@@ -1240,8 +1319,12 @@ li:has(.Event_a_circle:hover) .Event_product_box {
     left: 8px;
 }
 
+.helpful_box_1.active {
+    background-color: #d7bda7;
+}
+
 .helpful_box_1:active {
-    transform: scale(0.95); /* 원래 크기의 95%로 살짝 작아집니다. 필요에 따라 수치를 조절하세요. */
+    transform: scale(0.95);
 }
 
 /* Expert_opinion_section */
@@ -1291,10 +1374,11 @@ li:has(.Event_a_circle:hover) .Event_product_box {
     color: white;
     background-color: #1a1a1a;
 }
-.style-3
-{
+
+.style-3 {
     height: 38px;
 }
+
 .style-3:before {
     content: "";
     border-top: 1px solid white;
@@ -1316,10 +1400,9 @@ li:has(.Event_a_circle:hover) .Event_product_box {
 }
 
 .blockquote-wrapper {
-   display: flex;
-   height: 340px;
-
-   box-sizing: border-box;
+    display: flex;
+    height: 340px;
+    box-sizing: border-box;
 }
 
 .blockquote {
@@ -1332,12 +1415,13 @@ li:has(.Event_a_circle:hover) .Event_product_box {
 }
 
 .blockquote p {
-    position: relative; /* for pseudos */
+    position: relative;
+    /* for pseudos */
     color: #fff;
     font-size: 16px;
     font-weight: normal;
     border: 2px solid #fff;
-    border-radius:20px;
+    border-radius: 20px;
     padding: 25px;
     padding-top: 50px;
     height: 200px;
@@ -1345,35 +1429,36 @@ li:has(.Event_a_circle:hover) .Event_product_box {
 
 /* Blockquote right double quotes */
 .blockquote p:after {
-    content:"";
+    content: "";
     position: absolute;
     border: 2px solid #fff;
     border-radius: 0 100% 0 0;
     width: 100px;
-    height: 60px;
+    height: 61px;
     bottom: -62px;
     left: 150px;
     border-bottom: none;
     border-left: none;
-    z-index: 3; 
+    z-index: 3;
 }
+
 .Expert_opinion_contents li:nth-child(2) .blockquote p:after {
-    content:"";
+    content: "";
     position: absolute;
     border: 2px solid #fff;
     border-radius: 100% 0 0 0;
     width: 100px;
-    height: 60px;
+    height: 61px;
     bottom: -62px;
     left: auto;
     right: 150px;
     border-bottom: none;
     border-right: none;
-    z-index: 3; 
+    z-index: 3;
 }
 
 .blockquote p:before {
-    content:"";
+    content: "";
     position: absolute;
     width: 100px;
     border: 6px solid #1a1a1a;
@@ -1384,7 +1469,7 @@ li:has(.Event_a_circle:hover) .Event_product_box {
 }
 
 .Expert_opinion_contents li:nth-child(2) .blockquote p:before {
-    content:"";
+    content: "";
     position: absolute;
     width: 100px;
     border: 6px solid #1a1a1a;
@@ -1424,14 +1509,14 @@ li:has(.Event_a_circle:hover) .Event_product_box {
 
 /* 만약 p와 h4 사이에 간격이 필요하다면 margin-bottom으로 필요한 만큼만 정확히 줍니다 */
 .blockquote p {
-    margin-bottom: 16px; 
+    margin-bottom: 16px;
 }
 
 /* subbanner_2 */
 #subbanner_2_wrap {
     width: 100%;
     height: 250px;
-    background: url(../images/subbanner_2/Subbanner2.jpg) no-repeat;
+    background: url(../images/subbanner_2/Subbanner2.jpg) no-repeat center;
     position: relative;
 }
 
@@ -1442,7 +1527,8 @@ li:has(.Event_a_circle:hover) .Event_product_box {
     background-color: #fff;
     position: absolute;
     bottom: 18px;
-    left: 927px;
+    left: 50%;
+    transform: translateX(-50%);
     text-align: center;
     padding-top: 7px;
     font-size: 9pt;
@@ -1454,8 +1540,15 @@ li:has(.Event_a_circle:hover) .Event_product_box {
     box-shadow: 0 3px 7px rgba(0, 0, 0, 0.25), 0 3px 5px rgba(0, 0, 0, 0.22);
 }
 
-#footer_wrap
-{
+.application_button:active {
+    /* 클릭 시 크기를 95%로 축소하여 눌리는 느낌을 줍니다 */
+    transform: scale(0.95);
+    
+    /* (선택 사항) 눌렸을 때 그림자를 줄여주면 훨씬 더 입체적이고 자연스럽습니다 */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+#footer_wrap {
     width: 100%;
     height: 300px;
     background-color: #1a1a1a;
@@ -1463,8 +1556,7 @@ li:has(.Event_a_circle:hover) .Event_product_box {
     color: #fff;
 }
 
-.footer
-{
+.footer {
     width: 1320px;
     height: 300px;
     margin: 0px auto;
@@ -1472,15 +1564,14 @@ li:has(.Event_a_circle:hover) .Event_product_box {
     box-sizing: border-box;
 }
 
-.footer p
-{
+.footer p {
     font-size: 12px;
     position: absolute;
     left: 50px;
     bottom: 20px;
 }
-.footer_link
-{
+
+.footer_link {
     width: 1040px;
     display: flex;
     justify-content: space-between;
@@ -1488,33 +1579,57 @@ li:has(.Event_a_circle:hover) .Event_product_box {
     padding-top: 45px;
 }
 
-.footer h1
-{
+.footer h1 {
     margin-top: -24px;
 }
 
-.footer_ul h2
-{
+.footer_ul h2 {
     font-size: 20px;
     padding-bottom: 30px;
     line-height: 23px;
+    font-family: 'Roboto';
 }
 
-.roboto
-{
+.roboto {
     font-family: 'roboto';
 }
 
-.footer_ul li
-{
+.footer_ul>li {
     padding-bottom: 10px;
 }
-.footer_util
-{
+
+.footer_ul>li>a {
+    transition: 0.35s;
+}
+
+.footer_ul>li>a:hover {
+    text-shadow: 0 0 5px #FFFFFF, 0 0 15px #FFFFFF, 0 0 25px #FFFFFF;
+    -moz-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    -o-transform: scale(1.5);
+    transform: scale(1.5);
+}
+
+.footer_util {
     width: 208px;
     display: flex;
     justify-content: space-between;
     position: absolute;
     right: 0px;
     bottom: 20px;
+}
+
+.footer_util li:hover
+{
+    transform: scale(0.8);
+}
+
+.footer_util li:nth-child(4):hover
+{
+    transform: scale(0.7);
+}
+
+.footer_util li
+{
+    transition: 0.3s ease;
 }

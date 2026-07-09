@@ -87,7 +87,8 @@ body {
 #header_wrap {
     width: 100%;
     height: 100px;
-    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.9);
+    
 
     position: fixed;
     top: 0;
@@ -99,7 +100,6 @@ body {
 
     width: 1320px;
     height: 100px;
-    background-color: white;
     margin: 0px auto;
     display: flex;
     justify-content: space-between;
@@ -333,14 +333,72 @@ body {
     width: 60px;
 }
 
-.util>li:nth-child(1)>a {
-    width: 30px;
+.util > li:nth-child(1) > a {
+    display: inline-block;
+    width: 100%;
     height: 30px;
+    line-height: 30px;
+    text-align: center;
+    text-decoration: none;
+    
+    position: relative; 
+}
 
+/* 2. 양쪽으로 뻗어나갈 선의 공통 기본 상태 (길이 0) */
+.util > li:nth-child(1) > a:after,
+.util > li:nth-child(1) > a:before {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 0;
+    height: 3px; /* 선의 두께 */
+    bottom: -5px; /* 글씨와 너무 겹치면 0 대신 -5px 정도로 살짝 내려주세요 */
+    transition: all 0.2s ease-in 0s;
+    z-index: 1; /* 선이 배경 뒤로 숨는 것을 방지 */
+}
+
+/* 3. 왼쪽으로 뻗어나갈 선의 대기 상태 (:after) */
+.util > li:nth-child(1) > a:after {
+    left: 51%; /* 가운데서 출발 */
+    background: linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%);
+}
+
+/* 4. 오른쪽으로 뻗어나갈 선의 대기 상태 (:before) */
+.util > li:nth-child(1) > a:before {
+    right: 51%; /* 가운데서 출발 */
+    background: linear-gradient(to right, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
+}
+
+/* 5. 마우스를 올렸을 때(Hover) 실행될 애니메이션 */
+
+/* 왼쪽으로 뻗어나감 */
+.util > li:nth-child(1) > a:hover:after {
+    width: 70%; /* 너비가 절반만큼 늘어남 */
+    left: -20%; /* 왼쪽 끝으로 이동 */
+}
+
+/* 오른쪽으로 뻗어나감 */
+.util > li:nth-child(1) > a:hover:before {
+    width: 70%; /* 너비가 절반만큼 늘어남 */
+    right: -20%; /* 오른쪽 끝으로 이동 */
 }
 
 .util>li:nth-child(4) {
     padding-top: 4px;
+}
+
+.util>li:nth-child(2),
+.util>li:nth-child(3),
+.util>li:nth-child(4)
+{
+    transition: 0.3s ease;
+}
+
+.util>li:nth-child(2):hover,
+.util>li:nth-child(3):hover,
+.util>li:nth-child(4):hover
+{
+    transform: scale(0.8);
 }
 
 #Pagetitle_section_wrap {
@@ -358,9 +416,8 @@ body {
 
 .Pagetitle_section h2 {
     padding-top: 50px;
-    font-family: 'roboto';
     font-size: 32px;
-    font-weight: 700;
+    font-weight: 600;
     text-align: center;
     line-height: 48px;
 }
@@ -816,14 +873,6 @@ svg text {
 .slide_inner ul li:nth-child(3) {
     width: 400px;
     height: 540px;
-    position: relative;
-}
-
-.slide_inner ul li:nth-child(3) img {
-    position: absolute;
-    top: 50%;
-    right: 0;
-    transform: translateY(-50%);
 }
 
 .slide_inner ul li:nth-child(4) {
@@ -849,6 +898,28 @@ svg text {
 
 .slide_inner:hover {
     animation-play-state: paused;
+}
+
+.slide_inner ul li a {
+    display: block;
+    overflow: hidden; /* 중요: 이미지가 확대될 때 틀 밖으로 넘어가는 부분을 숨겨줍니다 */
+    width: 100%; /* 필요에 따라 틀의 고정 너비나 높이를 지정하셔도 됩니다 */
+    height: 100%;
+}
+
+.slide_inner ul li a img {
+    display: block;
+    width: 100%; /* 이미지가 틀에 꽉 차도록 설정 */
+
+    object-fit: cover; /* 틀에 꽉 채우고 넘치는 건 자름 */
+    object-position: center center;
+
+    transition: transform 0.3s ease; /* 부드럽게 커지고 작아지도록 애니메이션 속도 지정 */
+}
+
+/* 3. 마우스를 올렸을 때의 확대 효과 */
+.slide_inner ul li a:hover img {
+    transform: scale(1.07); /* 이미지만 1.07배 확대 */
 }
 
 #slide p {
@@ -881,9 +952,6 @@ svg text {
     height: 554px;
     position: relative;
 }
-
-
-
 
 .Veranda_image_section::before {
     content: "";
@@ -957,10 +1025,8 @@ svg text {
     width: 100%;
     height: 1628px;
     background-color: #191716;
-    /* 페이지 전체 배경색에 맞춰 수정하세요 */
     position: relative;
     z-index: 100;
-    /* header의 999보다 높게 설정 */
 }
 
 .sticky-container {
@@ -973,7 +1039,6 @@ svg text {
     top: 0;
     width: 100%;
     height: 100vh;
-    /* 실제 사용하실 배경 이미지나 색상으로 변경하세요 */
     background-color: #191716;
     background-position: center;
     background-size: cover;
@@ -1052,7 +1117,6 @@ svg text {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: transform 0.3s ease;
     overflow: hidden;
     /* 이미지가 둥근 모서리를 벗어나지 않게 함 */
 }
@@ -1063,6 +1127,11 @@ svg text {
     height: 100%;
     object-fit: cover;
     /* 비율을 유지하면서 꽉 채움 */
+    transition: transform 0.3s ease;
+}
+
+.photo:hover img {
+    transform: scale(1.07); /* 이전처럼 1.07배 확대 */
 }
 
 #Bedroom_section_target,
@@ -1136,9 +1205,6 @@ svg text {
 }
 
 #footer_wrap {
-    position: relative;
-    z-index: 9999;
-    /* 그 어떤 섹션보다 무조건 위에 오도록 가장 높은 숫자 부여 */
     width: 100%;
     height: 300px;
     background-color: #1a1a1a;
@@ -1169,6 +1235,7 @@ svg text {
     padding-top: 45px;
 }
 
+
 .footer h1 {
     margin-top: -24px;
 }
@@ -1177,14 +1244,27 @@ svg text {
     font-size: 20px;
     padding-bottom: 30px;
     line-height: 23px;
+    font-family: 'Roboto';
 }
 
 .roboto {
     font-family: 'roboto';
 }
 
-.footer_ul li {
+.footer_ul>li {
     padding-bottom: 10px;
+}
+
+.footer_ul>li>a {
+    transition: 0.35s;
+}
+
+.footer_ul>li>a:hover {
+    text-shadow: 0 0 5px #FFFFFF, 0 0 15px #FFFFFF, 0 0 25px #FFFFFF;
+    -moz-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    -o-transform: scale(1.5);
+    transform: scale(1.5);
 }
 
 .footer_util {
@@ -1194,4 +1274,19 @@ svg text {
     position: absolute;
     right: 0px;
     bottom: 20px;
+}
+
+.footer_util li:hover
+{
+    transform: scale(0.8);
+}
+
+.footer_util li:nth-child(4):hover
+{
+    transform: scale(0.7);
+}
+
+.footer_util li
+{
+    transition: 0.3s ease;
 }

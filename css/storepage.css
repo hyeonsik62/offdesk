@@ -20,6 +20,10 @@ body
     font-family: 'Paperozi';
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=LINE+Seed+JP&family=Lexend:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
 @font-face {
     font-family: 'Paperozi';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-1Thin.woff2') format('woff2');
@@ -83,10 +87,16 @@ body
     font-display: swap;
 }
 
+.spanoffdesk {
+    font-family: "comfortaa";
+    font-weight: 500;
+}
+
+
 #header_wrap {
     width: 100%;
     height: 100px;
-    background-color: #ffffff79;
+    background-color: rgba(255, 255, 255, 0.9);
     
     position: fixed;
     left: 0;
@@ -333,28 +343,85 @@ body
     width: 60px;
 }
 
-.util>li:nth-child(1)>a {
-    width: 30px;
+.util > li:nth-child(1) > a {
+    display: inline-block;
+    width: 100%;
     height: 30px;
-
+    line-height: 30px;
+    text-align: center;
+    text-decoration: none;
+    
+    position: relative; 
 }
 
+/* 2. 양쪽으로 뻗어나갈 선의 공통 기본 상태 (길이 0) */
+.util > li:nth-child(1) > a:after,
+.util > li:nth-child(1) > a:before {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 0;
+    height: 3px; /* 선의 두께 */
+    bottom: -5px; /* 글씨와 너무 겹치면 0 대신 -5px 정도로 살짝 내려주세요 */
+    transition: all 0.2s ease-in 0s;
+    z-index: 1; /* 선이 배경 뒤로 숨는 것을 방지 */
+}
+
+/* 3. 왼쪽으로 뻗어나갈 선의 대기 상태 (:after) */
+.util > li:nth-child(1) > a:after {
+    left: 51%; /* 가운데서 출발 */
+    background: linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%);
+}
+
+/* 4. 오른쪽으로 뻗어나갈 선의 대기 상태 (:before) */
+.util > li:nth-child(1) > a:before {
+    right: 51%; /* 가운데서 출발 */
+    background: linear-gradient(to right, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
+}
+
+/* 5. 마우스를 올렸을 때(Hover) 실행될 애니메이션 */
+
+/* 왼쪽으로 뻗어나감 */
+.util > li:nth-child(1) > a:hover:after {
+    width: 70%; /* 너비가 절반만큼 늘어남 */
+    left: -20%; /* 왼쪽 끝으로 이동 */
+}
+
+/* 오른쪽으로 뻗어나감 */
+.util > li:nth-child(1) > a:hover:before {
+    width: 70%; /* 너비가 절반만큼 늘어남 */
+    right: -20%; /* 오른쪽 끝으로 이동 */
+}
+
+.util>li:nth-child(4) {
+    padding-top: 4px;
+}
+
+.util>li:nth-child(2),
+.util>li:nth-child(3),
 .util>li:nth-child(4)
 {
-    padding-top: 4px;
+    transition: 0.3s ease;
+}
+
+.util>li:nth-child(2):hover,
+.util>li:nth-child(3):hover,
+.util>li:nth-child(4):hover
+{
+    transform: scale(0.8);
 }
 
 #Store_section_wrap
 {
     width: 100%;
-    height: 3808px;
+    height: 3908px;
     background-color: #DDC7B4;
 }
 
 .Store_section
 {
     width: 1320px;
-    height: 3808px;
+    height: 3908px;
     background-color: #cfb095;
     margin: 0px auto;
     display: flex;
@@ -363,7 +430,7 @@ body
 .Store_list_section
 {
     width: 320px;
-    min-height: 3808px;
+    min-height: 3908px;
     border: 1px solid #191716;
     border-top: none;
     border-bottom: none;
@@ -374,7 +441,6 @@ body
     width: 320px;
     height: auto;
     will-change: transform;
-    
 }
 
 .Store_list h2
@@ -388,6 +454,7 @@ body
 .Store_list_box
 {
     padding-top: 50px;
+    padding-bottom: 20px;
 }
 .Store_list_box>a
 {
@@ -412,11 +479,31 @@ body
 {
     padding: 20px;
     padding-bottom: 10px;
+    font-size: 20px;
+    font-weight: 600;
 }
 
 .Store_list_box li p
 {
     padding-left: 20px;
+    color: #495057;
+    font-weight: 500;
+}
+
+.Store_list_box li img
+{
+    position: absolute;
+    left: -90px;
+    top: 50%;
+    transform: translateY(-50%) scale(0.08) translateX(-400px);
+    opacity: 0; 
+    transition: all 0.3s ease-out;
+}
+
+.Store_list_box li:hover img
+{
+    opacity: 1;
+    transform: translateY(-50%) scale(0.08) translateX(400px);
 }
 
 
@@ -432,7 +519,7 @@ body
 .Store_box
 {
     width: 1000px;
-    height: 3812px;
+    height: 3912px;
 }
 .Store_box>li
 {
@@ -446,11 +533,21 @@ body
 
 .Store_box li img
 {
-    padding-top: 100px;
+    margin-top: 100px;
     width: 858px;
     height: 640px;
-
 }
+.Store_box li:nth-child(1)
+{
+    border-top: 1px solid #191716;
+    height: 1053px;
+}
+
+.Store_box li:nth-child(1) img
+{
+    padding-top: 100px;
+}
+
 .Store_box_title
 {
     display: flex;
@@ -481,10 +578,10 @@ body
     font-weight: 200;
     font-size: 14px;
     padding-top: 28px;
+    font-family: 'roboto';
 }
 
-#footer_wrap
-{
+#footer_wrap {
     width: 100%;
     height: 300px;
     background-color: #1a1a1a;
@@ -492,8 +589,7 @@ body
     color: #fff;
 }
 
-.footer
-{
+.footer {
     width: 1320px;
     height: 300px;
     margin: 0px auto;
@@ -501,15 +597,14 @@ body
     box-sizing: border-box;
 }
 
-.footer p
-{
+.footer p {
     font-size: 12px;
     position: absolute;
     left: 50px;
     bottom: 20px;
 }
-.footer_link
-{
+
+.footer_link {
     width: 1040px;
     display: flex;
     justify-content: space-between;
@@ -517,33 +612,58 @@ body
     padding-top: 45px;
 }
 
-.footer h1
-{
+
+.footer h1 {
     margin-top: -24px;
 }
 
-.footer_ul h2
-{
+.footer_ul h2 {
     font-size: 20px;
     padding-bottom: 30px;
     line-height: 23px;
+    font-family: 'Roboto';
 }
 
-.roboto
-{
+.roboto {
     font-family: 'roboto';
 }
 
-.footer_ul li
-{
+.footer_ul>li {
     padding-bottom: 10px;
 }
-.footer_util
-{
+
+.footer_ul>li>a {
+    transition: 0.35s;
+}
+
+.footer_ul>li>a:hover {
+    text-shadow: 0 0 5px #FFFFFF, 0 0 15px #FFFFFF, 0 0 25px #FFFFFF;
+    -moz-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    -o-transform: scale(1.5);
+    transform: scale(1.5);
+}
+
+.footer_util {
     width: 208px;
     display: flex;
     justify-content: space-between;
     position: absolute;
     right: 0px;
     bottom: 20px;
+}
+
+.footer_util li:hover
+{
+    transform: scale(0.8);
+}
+
+.footer_util li:nth-child(4):hover
+{
+    transform: scale(0.7);
+}
+
+.footer_util li
+{
+    transition: 0.3s ease;
 }
