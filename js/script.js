@@ -1,42 +1,100 @@
 document.addEventListener("DOMContentLoaded", function () {
 
+    // 1. 스크롤 위치 초기화
     if ('scrollRestoration' in history) {
-        // 브라우저가 스크롤 위치를 기억하는 자동(auto) 기능을 수동(manual)으로 끕니다.
         history.scrollRestoration = 'manual';
     }
-    // 페이지 로드 시 무조건 맨 위(0, 0)로 텔레포트 시킵니다.
     window.scrollTo(0, 0);
 
     const body = document.querySelector('body');
     const headerWrap = document.getElementById('header_wrap');
-    const mainVideo = document.querySelector('.mainbanner video');
+    const canvas = document.getElementById('video-canvas');
+    const context = canvas.getContext('2d');
 
-    console.log("스크립트 시작, 비디오 요소:", mainVideo);
+    const frameCount = 176; // 추출하신 프레임 개수에 맞게 176으로 수정!
+    let currentFrame = 1;
+    let targetFrame = 1;
+    let isCompleted = false;
+    const images = [];
 
-    // 1. 패딩 계산 로직 삭제, 단순히 스크롤만 잠금
-    if (body) {
-        body.classList.add('no-scroll');
+    // -------------------------------------------------------------
+    // [실제 프레임 이미지 불러오기]
+    // HTML 파일과 같은 위치에 'images' 라는 폴더가 있고, 
+    // 그 안에 파일들이 들어있다고 가정된 경로입니다.
+    for (let i = 1; i <= frameCount; i++) {
+        const img = new Image();
+
+        // i가 1일 때 파일번호는 1000, i가 176일 때 1175가 되도록 계산
+        const fileNumber = 999 + i;
+
+        // 이미지 경로 설정 (폴더명이나 경로가 다르면 'images/' 부분을 수정하세요)
+        img.src = `./videos/offdesk_mainbanner_${fileNumber}.jpg`;
+        images.push(img);
     }
+    // -------------------------------------------------------------
 
-    if (mainVideo) {
-        mainVideo.addEventListener('ended', function () {
-            console.log("비디오 재생 끝!");
+    // 첫 번째 이미지(1000번) 로드 완료 시 화면에 그리기
+    images[0].onload = () => {
+        context.drawImage(images[0], 0, 0, canvas.width, canvas.height);
+    };
 
-            // 2. 패딩 초기화 로직 삭제, 스크롤 잠금만 해제
+    // 렌더링 애니메이션 (부드러운 LERP 효과)
+    function render() {
+        if (isCompleted) return;
+
+        currentFrame += (targetFrame - currentFrame) * 0.1;
+
+        let frameIndex = Math.round(currentFrame) - 1;
+
+        if (images[frameIndex] && images[frameIndex].complete) {
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            // 이미지를 캔버스 크기에 꽉 차게 그리기
+            context.drawImage(images[frameIndex], 0, 0, canvas.width, canvas.height);
+        }
+
+        // 시퀀스 완료 조건 (마지막 프레임 176에 도달)
+        if (currentFrame >= frameCount - 0.5) {
+            currentFrame = frameCount;
+            isCompleted = true;
+
+            // 스크롤 잠금 해제
             body.classList.remove('no-scroll');
             if (headerWrap) headerWrap.classList.add('active');
-        });
-    } else {
-        console.warn("메인 비디오를 찾을 수 없습니다. 스크롤 잠금을 해제합니다.");
+            return;
+        }
 
-        // 3. 예외 상황에서도 스크롤 잠금만 해제
-        if (body) {
-            body.classList.remove('no-scroll');
-        }
-        if (headerWrap) {
-            headerWrap.classList.add('active');
-        }
+        requestAnimationFrame(render);
     }
+
+    requestAnimationFrame(render);
+
+    // 마우스 휠 이벤트 가로채기
+    window.addEventListener('wheel', (e) => {
+        if (!body.classList.contains('no-scroll') || isCompleted) {
+            return;
+        }
+
+        e.preventDefault();
+
+        if (e.deltaY > 0) {
+            // 민감도: 숫자가 클수록 휠을 많이 굴려야 함. 
+            // 너무 빨리 넘어가면 30이나 40으로 올려보세요.
+            const sensitivity = 20;
+            targetFrame += (e.deltaY / sensitivity);
+
+            if (targetFrame > frameCount) {
+                targetFrame = frameCount;
+            }
+        }
+        // 위로 올릴 때 다시 뒤로 감기게 하려면 아래 주석을 푸세요.
+        /*
+        else if (e.deltaY < 0) {
+            const sensitivity = 20;
+            targetFrame += (e.deltaY / sensitivity);
+            if (targetFrame < 1) targetFrame = 1;
+        }
+        */
+    }, { passive: false });
 
     // =======================================================
     // 2. Swiper 슬라이드 복제 및 초기화
@@ -101,20 +159,20 @@ document.addEventListener("DOMContentLoaded", function () {
     // =======================================================
 
     // 1. 클래스로 모든 버튼을 선택합니다.
-const helpfulBoxes = document.querySelectorAll('.helpful_box_1');
+    const helpfulBoxes = document.querySelectorAll('.helpful_box_1');
 
-// 2. 루프를 돌며 각각의 버튼에 이벤트를 등록합니다.
-helpfulBoxes.forEach((box) => {
-    box.addEventListener('click', function (e) {
-        // a 태그의 기본 동작(페이지 상단으로 튕기는 현상)을 방지합니다.
-        e.preventDefault();
+    // 2. 루프를 돌며 각각의 버튼에 이벤트를 등록합니다.
+    helpfulBoxes.forEach((box) => {
+        box.addEventListener('click', function (e) {
+            // a 태그의 기본 동작(페이지 상단으로 튕기는 현상)을 방지합니다.
+            e.preventDefault();
 
-        // 클릭된 요소에만 'active' 클래스를 토글합니다.
-        this.classList.toggle('active');
-        
-        // (선택사항) 클릭 상태일 때 로그를 확인해보고 싶다면 아래 주석을 해제하세요.
-        // console.log("버튼 상태 변경됨:", this.classList.contains('active'));
+            // 클릭된 요소에만 'active' 클래스를 토글합니다.
+            this.classList.toggle('active');
+
+            // (선택사항) 클릭 상태일 때 로그를 확인해보고 싶다면 아래 주석을 해제하세요.
+            // console.log("버튼 상태 변경됨:", this.classList.contains('active'));
+        });
     });
-});
 
 }); // DOMContentLoaded 끝
