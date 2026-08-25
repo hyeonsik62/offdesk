@@ -16,7 +16,7 @@
 
 </head>
 
-<body>
+<body class="no-scroll">
     <!-- header_wrap -->
     <div id="header_wrap">
         <div class="header">
@@ -25,7 +25,7 @@
             </a>
             <ul class="gnb">
                 <li>
-                    <a href="./subpage/Products_page.html">Products</a>
+                    <a href="./subpage/Products_page.html" class="leftalign">Products</a>
                     <div class="submenu_wrap">
                         <div class="submenu">
                             <ul class="submenu_link">
@@ -65,16 +65,16 @@
 
                             </div>
                             <ul class="submenu_link">
-                                <li>
+                                <li class="rightalign">
                                     <a href="./subpage/storepage.html#offdesk_seoul_section">Seoul</a>
                                 </li>
-                                <li>
+                                <li class="rightalign">
                                     <a href="./subpage/storepage.html#offdesk_busan_section">Busan</a>
                                 </li>
-                                <li>
+                                <li class="rightalign">
                                     <a href="./subpage/storepage.html#offdesk_daegu_section">Daegu</a>
                                 </li>
-                                <li>
+                                <li class="rightalign">
                                     <a href="./subpage/storepage.html#offdesk_sangju_section">Sangju</a>
                                 </li>
                             </ul>
@@ -107,8 +107,7 @@
     </div>
     <!-- mainbanner -->
     <div class="mainbanner">
-        <video src="./videos/offdesk_mainbanner_1.mp4" autoplay muted playsinline
-            style="width: 100%; height: 100vh; object-fit: cover;"></video>
+        <canvas id="video-canvas" width="1920" height="1080"></canvas>
     </div>
     <!-- Products_section -->
     <div id="Products_section_wrap">
