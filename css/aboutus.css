@@ -111,23 +111,35 @@ body {
 .gnb {
     display: flex;
     width: 541px;
-    margin: 0px 130px;
     justify-content: space-between;
-    padding-top: 35px;
     font-size: 24px;
-    font-family: "Roboto";
+    font-family: 'Roboto';
     font-weight: 400;
+
+    height: 100px;
+
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
 }
 
+.gnb>li
+{
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
 .gnb>li>a {
     position: relative;
     /* 밑줄이 a 태그를 기준으로 생기도록 설정 */
     display: inline-block;
     /* 텍스트 너비만큼만 밑줄이 생기도록 설정 */
-    padding: 0px 15px 5px 15px;
+    padding: 0px 0px 5px 0px;
     /* 텍스트와 밑줄 사이의 간격 (원하는 대로 조절 가능) */
     text-decoration: none;
     /* 혹시 모를 기본 밑줄 제거 */
+
 }
 
 /* 2. 양쪽으로 뻗어나갈 선의 공통 기본 상태 (길이 0) */
@@ -157,23 +169,20 @@ body {
     background: linear-gradient(to right, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
 }
 
-/* 5. 마우스를 올렸을 때(Hover) 실행될 애니메이션 */
-
-/* (누락되었던 코드 추가!) 왼쪽으로 뻗어나감 */
 .gnb>li>a:hover:after {
-    width: 50%;
-    /* 너비가 절반만큼 늘어남 */
-    left: 0;
-    /* 왼쪽 끝으로 이동 */
+    /* 기존 width: 50%; left: 0; 대신 길이를 늘려줍니다 */
+    width: calc(50% + 15px); /* 텍스트 절반(50%)보다 15px 더 길어짐 */
+    left: -15px;             /* 텍스트 영역보다 왼쪽으로 15px 더 튀어나가게 위치 조정 */
 }
 
-/* 오른쪽으로 뻗어나감 */
+/* 오른쪽으로 뻗어나가는 선 */
 .gnb>li>a:hover:before {
-    width: 50%;
-    /* 너비가 절반만큼 늘어남 */
-    right: 0;
-    /* 오른쪽 끝으로 이동 */
+    /* 기존 width: 50%; right: 0; 대신 길이를 늘려줍니다 */
+    width: calc(50% + 15px); /* 텍스트 절반(50%)보다 15px 더 길어짐 */
+    right: -15px;            /* 텍스트 영역보다 오른쪽으로 15px 더 튀어나가게 위치 조정 */
 }
+
+
 
 /* 전체 submenu */
 
@@ -183,12 +192,10 @@ body {
     background-color: rgba(45, 45, 45, 0.6);
 
     backdrop-filter: blur(10px);
-    position: absolute;
+    position: fixed;
     top: 100px;
     left: 0;
     display: none;
-
-    z-index: 12;
 }
 
 .gnb>li:hover .submenu_wrap {
@@ -198,19 +205,30 @@ body {
 .submenu {
     width: 541px;
     height: 332px;
-    margin-left: 674px;
+
+    margin: 0 auto;
+
     display: flex;
     justify-content: space-between;
     position: relative;
 }
 
+.submenu_link
+{
+    padding: 0;
+    margin: 0;
+    text-align: left;
+}
+
 .submenu_link li {
-    font-family: "Roboto";
+    font-family: 'Roboto';
     font-weight: 400;
     font-size: 24px;
     padding-bottom: 44px;
     line-height: 28px;
     color: white;
+    text-align: left;
+
 }
 
 .submenu_link li:nth-child(1) {
@@ -218,8 +236,19 @@ body {
 }
 
 .submenu_link li a {
-    display: block;
+    display: inline-block;
+    vertical-align: middle;
     height: 28px;
+
+}
+
+.leftalign
+{
+    text-align: left;
+}
+
+.submenu_link li.rightalign {
+    text-align: right;
 }
 
 .submenu_link li a {
@@ -532,72 +561,86 @@ body {
     object-position: center;
 }
 
-.Philosophy_box h3
-{
+.Philosophy_box h3 {
     font-family: 'roboto';
     font-size: 36px;
     font-weight: 700;
-    margin-top: 223px;
-    position: absolute;
     line-height: 56px;
+    color: #000;
+    margin: 0; /* 텍스트 박스 안에서 위치를 잡으므로 기존 margin-top 제거 */
 }
 
-.Philosophy_box h4
-{
+.Philosophy_box h4 {
     font-family: 'Paperozi';
     font-size: 20px;
     font-weight: 500;
-    position: absolute;
-    margin-top: 279px;
+    color: #000;
+    margin: 0; 
 }
 
-.Philosophy_box p
-{
+.Philosophy_box p {
     font-family: 'Paperozi';
     font-size: 14px;
     font-weight: 400;
-    position: absolute;
-    margin-top: 340px;
+    color: #000;
+    margin-top: 41px; /* 기존 레이아웃 비율에 맞춰 h4와 p 사이의 간격 추가 */
 }
 
-.Philosophy_box_section li:nth-child(1) h3,
-.Philosophy_box_section li:nth-child(1) h4,
-.Philosophy_box_section li:nth-child(1) p {
-    left: 25px;
+/* 2. 텍스트 박스 전체를 absolute로 띄워서 크기와 배경을 설정합니다 */
+.Philosophy_box .Philosophy_textbox {
+    position: absolute;
+    top: 203px; /* 기존 h3 위치(223px)에서 패딩(20px)만큼 위로 올림 */
+    box-sizing: border-box; /* 패딩이 너비에 포함되도록 설정 */
+    padding: 20px;
+    border-radius: 8px;
+    z-index: 10; /* 호버 이미지(z-index: 2)보다 확실히 위에 오도록 설정 */
+    background-color: transparent; 
+    transition: background-color 0.3s ease; 
 }
-.Philosophy_box_section li:nth-child(1):hover h3,
-.Philosophy_box_section li:nth-child(1):hover h4,
-.Philosophy_box_section li:nth-child(1):hover p {
-    z-index: 5;
+
+/* 3. hover 시 박스에 배경색 적용 */
+.Philosophy_box:hover .Philosophy_textbox {
+    background-color: rgba(240, 248, 255, 0.5); 
 }
-.Philosophy_box_section li:nth-child(2) h3,
-.Philosophy_box_section li:nth-child(2) h4,
-.Philosophy_box_section li:nth-child(2) p {
+
+/* 4. 기존 텍스트에 있던 정렬(left, right, center)을 텍스트 박스로 옮겨줍니다 */
+.Philosophy_box_section li:nth-child(1) .Philosophy_textbox {
+    left: 5px; /* 기존 25px에서 패딩을 고려해 위치 조정 */
+    text-align: left;
+    width: 430px;
+}
+
+.Philosophy_box_section li:nth-child(2) .Philosophy_textbox {
     text-align: center;
     left: 50%;
     transform: translateX(-50%);
     width: 440px;
 }
-.Philosophy_box_section li:nth-child(2):hover h3,
-.Philosophy_box_section li:nth-child(2):hover h4,
-.Philosophy_box_section li:nth-child(2):hover p {
-    z-index: 5;
-}
-.Philosophy_box_section li:nth-child(3) h3,
-.Philosophy_box_section li:nth-child(3) h4,
-.Philosophy_box_section li:nth-child(3) p {
-    right: 25px;
+
+.Philosophy_box_section li:nth-child(3) .Philosophy_textbox {
+    right: 5px;
     text-align: right;
+    width: 430px;
 }
-.Philosophy_box_section li:nth-child(3):hover h3,
-.Philosophy_box_section li:nth-child(3):hover h4,
-.Philosophy_box_section li:nth-child(3):hover p {
-    z-index: 5;
+
+.Philosophy_box .Philosophy_textbox {
+    opacity: 1; /* 기본 상태에서는 모두 보임 */
+}
+
+/* 2. 부모(ul) 영역에 마우스가 들어오면 모든 텍스트 박스를 투명하게 만듦 */
+.Philosophy_box_section:hover .Philosophy_textbox {
+    opacity: 0; 
+}
+
+/* 3. 하지만 현재 마우스가 올라간 박스(li)의 텍스트 박스는 다시 보이게 함 */
+.Philosophy_box_section .Philosophy_box:hover .Philosophy_textbox {
+    opacity: 1; 
+    background-color: rgba(240, 248, 255, 0.5); /* 원하시던 반투명 배경색 적용 */
 }
 
 .original
 {
-    opacity: 0.7;
+    opacity: 0.5;
 }
 .hover {
     opacity: 0;
@@ -636,6 +679,26 @@ body {
     opacity: 0;
 }
 
+.text-shadow-effect {
+  color: #ffffff;
+  /* 가로 오프셋, 세로 오프셋, 흐림 정도(Blur), 색상(블랙 60%) */
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.938);
+}
+
+.Philosophy_box .Philosophy_textbox {
+    background-color: transparent; /* 평소에는 투명 */
+    padding: 20px; /* 박스 내부 여백 (디자인에 맞게 조절하세요) */
+    border-radius: 8px; /* 박스 모서리 둥글기 (필요 시 사용) */
+
+    position: relative;
+    z-index: 10;
+}
+
+/* Philosophy_box에 마우스를 올렸을 때 텍스트 박스의 변화 */
+.Philosophy_box:hover .Philosophy_textbox {
+    /* aliceblue(#F0F8FF)의 RGB 값에 투명도 0.5 적용 */
+    background-color: rgba(240, 248, 255, 0.5); 
+}
 
 
 /* BRAND IDENTITY SECTION */

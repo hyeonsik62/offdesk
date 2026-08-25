@@ -57,23 +57,35 @@ body
 .gnb {
     display: flex;
     width: 541px;
-    margin: 0px 130px;
     justify-content: space-between;
-    padding-top: 35px;
     font-size: 24px;
-    font-family: "Roboto";
+    font-family: 'Roboto';
     font-weight: 400;
+
+    height: 100px;
+
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
 }
 
+.gnb>li
+{
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
 .gnb>li>a {
     position: relative;
     /* 밑줄이 a 태그를 기준으로 생기도록 설정 */
     display: inline-block;
     /* 텍스트 너비만큼만 밑줄이 생기도록 설정 */
-    padding: 0px 15px 5px 15px;
+    padding: 0px 0px 5px 0px;
     /* 텍스트와 밑줄 사이의 간격 (원하는 대로 조절 가능) */
     text-decoration: none;
     /* 혹시 모를 기본 밑줄 제거 */
+
 }
 
 /* 2. 양쪽으로 뻗어나갈 선의 공통 기본 상태 (길이 0) */
@@ -103,23 +115,20 @@ body
     background: linear-gradient(to right, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
 }
 
-/* 5. 마우스를 올렸을 때(Hover) 실행될 애니메이션 */
-
-/* (누락되었던 코드 추가!) 왼쪽으로 뻗어나감 */
 .gnb>li>a:hover:after {
-    width: 50%;
-    /* 너비가 절반만큼 늘어남 */
-    left: 0;
-    /* 왼쪽 끝으로 이동 */
+    /* 기존 width: 50%; left: 0; 대신 길이를 늘려줍니다 */
+    width: calc(50% + 15px); /* 텍스트 절반(50%)보다 15px 더 길어짐 */
+    left: -15px;             /* 텍스트 영역보다 왼쪽으로 15px 더 튀어나가게 위치 조정 */
 }
 
-/* 오른쪽으로 뻗어나감 */
+/* 오른쪽으로 뻗어나가는 선 */
 .gnb>li>a:hover:before {
-    width: 50%;
-    /* 너비가 절반만큼 늘어남 */
-    right: 0;
-    /* 오른쪽 끝으로 이동 */
+    /* 기존 width: 50%; right: 0; 대신 길이를 늘려줍니다 */
+    width: calc(50% + 15px); /* 텍스트 절반(50%)보다 15px 더 길어짐 */
+    right: -15px;            /* 텍스트 영역보다 오른쪽으로 15px 더 튀어나가게 위치 조정 */
 }
+
+
 
 /* 전체 submenu */
 
@@ -129,12 +138,10 @@ body
     background-color: rgba(45, 45, 45, 0.6);
 
     backdrop-filter: blur(10px);
-    position: absolute;
+    position: fixed;
     top: 100px;
     left: 0;
     display: none;
-
-    z-index: 12;
 }
 
 .gnb>li:hover .submenu_wrap {
@@ -144,19 +151,30 @@ body
 .submenu {
     width: 541px;
     height: 332px;
-    margin-left: 674px;
+
+    margin: 0 auto;
+
     display: flex;
     justify-content: space-between;
     position: relative;
 }
 
+.submenu_link
+{
+    padding: 0;
+    margin: 0;
+    text-align: left;
+}
+
 .submenu_link li {
-    font-family: "Roboto";
+    font-family: 'Roboto';
     font-weight: 400;
     font-size: 24px;
     padding-bottom: 44px;
     line-height: 28px;
     color: white;
+    text-align: left;
+
 }
 
 .submenu_link li:nth-child(1) {
@@ -164,8 +182,19 @@ body
 }
 
 .submenu_link li a {
-    display: block;
+    display: inline-block;
+    vertical-align: middle;
     height: 28px;
+
+}
+
+.leftalign
+{
+    text-align: left;
+}
+
+.submenu_link li.rightalign {
+    text-align: right;
 }
 
 .submenu_link li a {
